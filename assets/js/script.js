@@ -2,7 +2,10 @@ var taskIdCounter = 0;
 
 const pageContentEl = document.querySelector('#page-content');
 const formEl = document.querySelector('#task-form');
+
 const taskstoDoEl = document.querySelector('#tasks-to-do');
+const tasksInProgressEl = document.querySelector('#tasks-in-progress');
+const tasksCompletedEl = document.querySelector('#tasks-completed');
 
 const taskFormHandler = function(e) {
     e.preventDefault();
@@ -87,8 +90,8 @@ const createTaskActions = function(taskId) {
     actionContainerEl.appendChild(statusSelectEl);
 
     //loop through select choices
-    var statusChoices = ['To Do', 'In Progress', 'Completed'];
-    for (var i=0; i < statusChoices.length; i++) {
+    var statusChoices = ['To Do', 'In Progress', 'Completed',];
+    for (var i = 0; i < statusChoices.length; i++) {
         //create option element
         var statusOptionEl = document.createElement('option');
         statusOptionEl.textContent = statusChoices[i];
@@ -116,7 +119,7 @@ const taskButtonHandler = function(e) {
         //get the element's task id
         var taskId = e.target.getAttribute('data-task-id');
         deleteTask(taskId);
-    }
+    };
 };
 
 const deleteTask = function(taskId) {
@@ -151,7 +154,25 @@ const completeEditTask = function(taskName, taskType, taskId) {
     document.querySelector('#save-task').textContent = 'Add Task';
 
     alert('Task Updated!');
-}
+};
+
+let taskStatusChangeHandler = function(e) {
+    //get the task item's id
+    var taskId = e.target.getAttribute('data-task-id');
+    //get the currently selected option's value and convert to lowercase
+    var statusValue = e.target.value.toLowerCase();
+    //find the parent taks item element based on the id
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+
+    if(statusValue === 'to do') {
+        taskstoDoEl.appendChild(taskSelected);
+    } else if (statusValue ==='in progress') {
+        tasksInProgressEl.appendChild(taskSelected);
+    } else if (statusValue === 'completed') {
+        tasksCompletedEl.appendChild(taskSelected);
+    };
+};
 
 formEl.addEventListener('submit', taskFormHandler);
 pageContentEl.addEventListener('click', taskButtonHandler);
+pageContentEl.addEventListener('change', taskStatusChangeHandler);
