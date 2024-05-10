@@ -258,8 +258,6 @@ const dropTaskHandler = function(e) {
         if(tasks[i].id === parseInt(id)){
             tasks[i].status = statusSelectEl.value.toLowerCase();
         }
-        
-        console.log(tasks[i].id, parseInt(id));
     };
 
     //save to localStorage
@@ -281,7 +279,6 @@ var loadTasks = function() {
    var storedTasks = JSON.parse(localStorage.getItem('tasks'));
 
    if(!storedTasks) {
-    tasks = [];
     return false;
    };
 
@@ -307,8 +304,6 @@ var loadTasks = function() {
     listItemEl.appendChild(taskInfoEl);
     listItemEl.appendChild(taskActionsEl);
 
-    console.log(tasks[i].status)
-
     if(tasks[i].status === "to do") {
         listItemEl.querySelector("select[name='status-change']").selectedIndex = 0;
         taskstoDoEl.appendChild(listItemEl);
@@ -321,7 +316,6 @@ var loadTasks = function() {
     };
 
     taskIdCounter++;
-    console.log(taskIdCounter)
    }
 }
 
